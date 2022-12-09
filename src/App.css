@@ -47,34 +47,3 @@
     grid-template-columns: 2fr 10fr;
     grid-gap: 10px;
 }
-
-.header {
-    grid-area: h;
-    background: lightslategray;
-}
-
-.header img {
-    width: 100px;
-}
-
-.nav {
-    grid-area: n;
-    background: lavender;
-}
-
-.content {
-    grid-area: c;
-    background: silver;
-}
-
-.content {
-    grid-area: c;
-    background: silver;
-}
-
-#img-width-1 {
-    width: 1000px;
-}
-#img-width-2 {
-    width: 200px;
-}

@@ -1,0 +1,20 @@
+.content {
+    grid-area: c;
+    background: silver;
+}
+
+.content {
+    grid-area: c;
+    background: silver;
+}
+
+.item {
+    color: #282c34;
+}
+
+#img_width_1 {
+    width: 1000px;
+}
+#img_width_2 {
+    width: 200px;
+}
