@@ -1,8 +1,14 @@
 .nav {
     grid-area: n;
     background: lavender;
+    padding: 20px;
 }
 
-.item {
+.item a {
     color: #282c34;
+    text-decoration: none;
+}
+
+.item a.active {
+    color: turquoise;
 }

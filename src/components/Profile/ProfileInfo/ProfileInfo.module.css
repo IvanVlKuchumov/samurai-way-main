@@ -1,0 +1,13 @@
+.descriptionBlock {
+    padding: 10px;
+}
+
+#img_width_1 {
+    width: 1000px;
+}
+
+#img_width_2 {
+    width: 200px;
+    padding: 10px;
+    border-radius: 80px;
+}
