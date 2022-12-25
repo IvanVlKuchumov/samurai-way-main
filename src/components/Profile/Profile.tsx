@@ -2,13 +2,11 @@ import React from "react";
 import s from "./Profile.module.css"
 import {MyPosts} from "./Posts/MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {PostsType} from "../../App";
+import {PostPagesType} from "../../redux/state";
 
-export type PostsPropsType = {
-  posts:Array<PostsType>
-}
 
-export const Profile:React.FC<PostsPropsType> = (props) => {
+
+export const Profile:React.FC<PostPagesType> = (props) => {
 
     return (
         <>

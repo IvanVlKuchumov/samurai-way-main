@@ -1,11 +1,11 @@
 import React from "react";
 import {Post} from "./Post/Post";
 import s from "./MyPosts.module.css"
-import {PostsPropsType} from "../../Profile";
+import {PostPagesType} from "../../../../redux/state";
 
 
 
-export const MyPosts:React.FC<PostsPropsType> = (props) => {
+export const MyPosts:React.FC<PostPagesType> = (props) => {
 
     const postsElements = props.posts.map(p => <Post messages={p.message} likeCount={p.likesCount}/>)
 
