@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from "../render";
+
 export type MessagesType = {
     id: number
     message: string
@@ -16,25 +18,26 @@ export type DialogsType = {
 
 export type PostPagesType = {
     posts: PostsType[]
+    newPostText: string
 }
 
 export type DialogsPagesType = {
-    dialogs:DialogsType[]
+    dialogs: DialogsType[]
     messages: MessagesType[]
 }
 
 export type RootStateType = {
-    postPages:PostPagesType
-    dialogsPages:DialogsPagesType
+    postPages: PostPagesType
+    dialogsPages: DialogsPagesType
 }
 
 
-
-export const state:RootStateType = {
+export const state: RootStateType = {
     postPages: {
         posts: [{id: 1, message: 'Hello, my friend!', likesCount: 1},
             {id: 2, message: 'The boy went to success, no luck.', likesCount: 0},
             {id: 3, message: 'Chocolate is not to blame', likesCount: 100500}],
+        newPostText: ''
     },
 
     dialogsPages: {
@@ -47,11 +50,19 @@ export const state:RootStateType = {
     }
 }
 
-export const addPost = (postMessage:string) => {
-  const newPost:PostsType  = {
-      id:5,
-      message: postMessage,
-      likesCount: 0
-  }
-  state.postPages.posts.push(newPost)
+export const addPost = () => {
+    const newPost: PostsType = {
+        id: 5,
+        message: state.postPages.newPostText,
+        likesCount: 0
+    }
+    state.postPages.posts.push(newPost)
+    state.postPages.newPostText = ''
+    rerenderEntireTree(state)
+}
+
+export const updateNewPost = (newPost: string) => {
+    state.postPages.newPostText = newPost
+
+    rerenderEntireTree(state)
 }
