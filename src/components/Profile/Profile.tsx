@@ -14,7 +14,7 @@ type PorfileType = {
 export const Profile:React.FC<PorfileType> = (props) => {
 
     return (
-        <>`
+        <>
             <main className={s.content}>
                 <ProfileInfo/>
                 <MyPosts posts={props.postPages.posts} updateNewPost={props.updateNewPost} newPostText={props.postPages.newPostText} addPost={props.addPost}/>
