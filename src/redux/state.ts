@@ -37,10 +37,12 @@ export type StorePropsType = {
     addPost: () => void
     updateNewPost: (newPost: string) => void
     subscribe: (observer: (state: RootStateType) => void) => void
-
-
+    dispatch: (action:any) =>  ReturnType<typeof DispatchType>
 }
 
+type DispatchType = {
+
+}
 
 export const store: StorePropsType = {
     _state: {
@@ -78,5 +80,12 @@ export const store: StorePropsType = {
     },
     subscribe(observer: (state: RootStateType) => void) {
         rerenderEntireTree = observer
+    },
+    dispatch(action) {
+        switch (action.type) {
+
+
+        }
+
     }
 }
