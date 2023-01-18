@@ -34,15 +34,11 @@ export type RootStateType = {
 export type StorePropsType = {
     _state: RootStateType
     getState: () => RootStateType
-    addPost: () => void
-    updateNewPost: (newPost: string) => void
     subscribe: (observer: (state: RootStateType) => void) => void
-    dispatch: (action:any) =>  ReturnType<typeof DispatchType>
+    dispatch: (action:DispatchType) =>  void
 }
 
-type DispatchType = {
-
-}
+export type DispatchType =  ReturnType<typeof addPostAction> | ReturnType<typeof updateNewPostAction>
 
 export const store: StorePropsType = {
     _state: {
@@ -64,28 +60,42 @@ export const store: StorePropsType = {
     getState() {
         return this._state
     },
-    addPost() {
-        const newPost: PostsType = {
-            id: 5,
-            message: this._state.postPages.newPostText,
-            likesCount: 0
-        }
-        this._state.postPages.posts.push(newPost)
-        this._state.postPages.newPostText = ''
-        rerenderEntireTree(this._state)
-    },
-    updateNewPost(newPost: string) {
-        this._state.postPages.newPostText = newPost
-        rerenderEntireTree(this._state)
-    },
-    subscribe(observer: (state: RootStateType) => void) {
+     subscribe(observer: (state: RootStateType) => void) {
         rerenderEntireTree = observer
     },
     dispatch(action) {
         switch (action.type) {
-
-
+            case 'ADD-POST': {
+                const newPost: PostsType = {
+                    id: 5,
+                    message: this._state.postPages.newPostText,
+                    likesCount: 0
+                }
+                this._state.postPages.posts.push(newPost)
+                this._state.postPages.newPostText = ''
+                rerenderEntireTree(this._state)
+                break
+            }
+            case 'UPDATE-NEW-POST': {
+                this._state.postPages.newPostText = action.payload.newPost
+                rerenderEntireTree(this._state)
+            }
         }
 
     }
+}
+
+const addPostAction = () => {
+    return {
+        type: 'ADD-POST'
+    } as const
+}
+
+const updateNewPostAction = (newPost:string) => {
+    return {
+        type: 'UPDATE-NEW-POST',
+        payload: {
+            newPost
+        }
+    } as const
 }
