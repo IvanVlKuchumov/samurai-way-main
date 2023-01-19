@@ -15,6 +15,6 @@ const rerenderEntireTree = (state:RootStateType) => {
 
 }
 
-rerenderEntireTree(store._state)
+rerenderEntireTree(store.getState())
 
 store.subscribe(rerenderEntireTree)

@@ -1,7 +1,7 @@
 import React from "react";
 import {Post} from "./Post/Post";
 import s from "./MyPosts.module.css"
-import {DispatchType, PostsType} from "../../../../redux/state";
+import {DispatchType, PostsType, updateNewPostAC, addPostAC} from "../../../../redux/state";
 
 type MyPostsTypes = {
     posts: PostsType[]
@@ -19,13 +19,13 @@ export const MyPosts: React.FC<MyPostsTypes> = (props) => {
     const addPost = () => {
         const text = newPostElement.current?.value
         if (text) {
-            props.dispatch({type: 'ADD-POST'})
+            props.dispatch(addPostAC())
         }
     }
     const onChangeTextareaHandler = () => {
         const text = newPostElement.current?.value
         if (text) {
-            props.dispatch({type: 'UPDATE-NEW-POST', payload: {newPost: text}})
+            props.dispatch(updateNewPostAC(text))
         }
     }
 
