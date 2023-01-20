@@ -24,6 +24,7 @@ export type PostPagesType = {
 export type DialogsPagesType = {
     dialogs: DialogsType[]
     messages: MessagesType[]
+    newMessageBody: string
 }
 
 export type RootStateType = {
@@ -35,10 +36,14 @@ export type StorePropsType = {
     _state: RootStateType
     getState: () => RootStateType
     subscribe: (observer: (state: RootStateType) => void) => void
-    dispatch: (action:DispatchType) =>  void
+    dispatch: (action: DispatchType) => void
 }
 
-export type DispatchType =  ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostAC>
+export type DispatchType =
+    ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostAC>
+    | ReturnType<typeof updateNewMessageBodyAC>
+    | ReturnType<typeof sendMessageAC>
 
 export const store: StorePropsType = {
     _state: {
@@ -54,13 +59,14 @@ export const store: StorePropsType = {
                 {id: 3, name: 'Buba'}],
             messages: [{id: 1, message: "Hello world!"},
                 {id: 2, message: "What's up?"},
-                {id: 3, message: "Good morning!"}]
+                {id: 3, message: "Good morning!"}],
+            newMessageBody: ''
         }
     },
     getState() {
         return this._state
     },
-     subscribe(observer: (state: RootStateType) => void) {
+    subscribe(observer: (state: RootStateType) => void) {
         rerenderEntireTree = observer
     },
     dispatch(action) {
@@ -79,6 +85,21 @@ export const store: StorePropsType = {
             case 'UPDATE-NEW-POST': {
                 this._state.postPages.newPostText = action.payload.newPost
                 rerenderEntireTree(this._state)
+                break
+            }
+            case 'UPDATE-NEW-MESSAGE-BODY': {
+                this._state.dialogsPages.newMessageBody = action.payload.newMessageBody
+                rerenderEntireTree(this._state)
+                break
+            }
+            case 'SEND-MESSAGE': {
+                const newMessage: MessagesType = {
+                    id: 4,
+                    message: this._state.dialogsPages.newMessageBody,
+                }
+                this._state.dialogsPages.messages.push(newMessage)
+                this._state.dialogsPages.newMessageBody = ''
+                rerenderEntireTree(this._state)
             }
         }
 
@@ -91,11 +112,26 @@ export const addPostAC = () => {
     } as const
 }
 
-export const updateNewPostAC = (newPost:string) => {
+export const updateNewPostAC = (newPost: string) => {
     return {
         type: 'UPDATE-NEW-POST',
         payload: {
             newPost
         }
+    } as const
+}
+
+export const updateNewMessageBodyAC = (newMessageBody: string) => {
+    return {
+        type: 'UPDATE-NEW-MESSAGE-BODY',
+        payload: {
+            newMessageBody
+        }
+    } as const
+}
+
+export const sendMessageAC = () => {
+    return {
+        type: 'SEND-MESSAGE',
     } as const
 }

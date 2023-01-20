@@ -21,3 +21,9 @@
     padding: 10px;
 }
 
+.messageSender {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+

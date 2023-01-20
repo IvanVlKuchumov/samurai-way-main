@@ -23,7 +23,7 @@ const App: React.FC<AppPropsType> = (props) => {
                 <Header/>
                 <Navigation/>
                 <div className="app-wrapper-content">
-                    <Route path='/dialogs' render={() => <Dialogs dialogsPages={props.state.dialogsPages}/>}/>
+                    <Route path='/dialogs' render={() => <Dialogs dialogsPages={props.state.dialogsPages} dispatch={props.dispatch}/>}/>
                     <Route path='/profile'
                            render={() => <Profile postPages={props.state.postPages} dispatch={props.dispatch}/>}/>
                     <Route path='/music' render={() => <Music/>}/>
