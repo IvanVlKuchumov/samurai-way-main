@@ -1,5 +1,5 @@
-import {profileReducer} from "./profile-reducer";
-import {dialogsReducer} from "./dialogs-reducer";
+import {addPostAC, profileReducer, updateNewPostAC} from "./profile-reducer";
+import {dialogsReducer, sendMessageAC, updateNewMessageBodyAC} from "./dialogs-reducer";
 
 
 export type MessagesType = {
@@ -83,32 +83,6 @@ export const store: StorePropsType = {
     }
 }
 
-export const addPostAC = () => {
-    return {
-        type: 'ADD-POST'
-    } as const
-}
 
-export const updateNewPostAC = (newPost: string) => {
-    return {
-        type: 'UPDATE-NEW-POST',
-        payload: {
-            newPost
-        }
-    } as const
-}
 
-export const updateNewMessageBodyAC = (newMessageBody: string) => {
-    return {
-        type: 'UPDATE-NEW-MESSAGE-BODY',
-        payload: {
-            newMessageBody
-        }
-    } as const
-}
 
-export const sendMessageAC = () => {
-    return {
-        type: 'SEND-MESSAGE',
-    } as const
-}

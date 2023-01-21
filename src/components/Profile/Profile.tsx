@@ -4,13 +4,13 @@ import {MyPosts} from "./Posts/MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {DispatchType, PostPagesType} from "../../redux/state";
 
-type PorfileType = {
+type ProfileType = {
     postPages: PostPagesType
     dispatch: (action: DispatchType) => void
 }
 
 
-export const Profile:React.FC<PorfileType> = (props) => {
+export const Profile:React.FC<ProfileType> = (props) => {
 
     return (
         <>

@@ -17,3 +17,18 @@ export const dialogsReducer = (state:DialogsPagesType, action:DispatchType) => {
     }
     return state
 }
+
+export const updateNewMessageBodyAC = (newMessageBody: string) => {
+    return {
+        type: 'UPDATE-NEW-MESSAGE-BODY',
+        payload: {
+            newMessageBody
+        }
+    } as const
+}
+
+export const sendMessageAC = () => {
+    return {
+        type: 'SEND-MESSAGE',
+    } as const
+}

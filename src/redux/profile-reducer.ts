@@ -21,3 +21,18 @@ export const profileReducer= (state:PostPagesType, action:DispatchType) => {
     }
     return state
 }
+
+export const addPostAC = () => {
+    return {
+        type: 'ADD-POST'
+    } as const
+}
+
+export const updateNewPostAC = (newPost: string) => {
+    return {
+        type: 'UPDATE-NEW-POST',
+        payload: {
+            newPost
+        }
+    } as const
+}
