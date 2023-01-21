@@ -1,4 +1,6 @@
-let rerenderEntireTree: (state: RootStateType) => void
+import {profileReducer} from "./profile-reducer";
+import {dialogsReducer} from "./dialogs-reducer";
+
 
 export type MessagesType = {
     id: number
@@ -34,8 +36,9 @@ export type RootStateType = {
 
 export type StorePropsType = {
     _state: RootStateType
+    _onChange: () => void
     getState: () => RootStateType
-    subscribe: (observer: (state: RootStateType) => void) => void
+    subscribe: (observer: () => void) => void
     dispatch: (action: DispatchType) => void
 }
 
@@ -63,45 +66,19 @@ export const store: StorePropsType = {
             newMessageBody: ''
         }
     },
+    _onChange() {
+        console.log('state change')
+    },
     getState() {
         return this._state
     },
-    subscribe(observer: (state: RootStateType) => void) {
-        rerenderEntireTree = observer
+    subscribe(observer) {
+        this._onChange = observer
     },
     dispatch(action) {
-        switch (action.type) {
-            case 'ADD-POST': {
-                const newPost: PostsType = {
-                    id: 5,
-                    message: this._state.postPages.newPostText,
-                    likesCount: 0
-                }
-                this._state.postPages.posts.push(newPost)
-                this._state.postPages.newPostText = ''
-                rerenderEntireTree(this._state)
-                break
-            }
-            case 'UPDATE-NEW-POST': {
-                this._state.postPages.newPostText = action.payload.newPost
-                rerenderEntireTree(this._state)
-                break
-            }
-            case 'UPDATE-NEW-MESSAGE-BODY': {
-                this._state.dialogsPages.newMessageBody = action.payload.newMessageBody
-                rerenderEntireTree(this._state)
-                break
-            }
-            case 'SEND-MESSAGE': {
-                const newMessage: MessagesType = {
-                    id: 4,
-                    message: this._state.dialogsPages.newMessageBody,
-                }
-                this._state.dialogsPages.messages.push(newMessage)
-                this._state.dialogsPages.newMessageBody = ''
-                rerenderEntireTree(this._state)
-            }
-        }
+        this._state.postPages = profileReducer(this._state.postPages, action)
+        this._state.dialogsPages = dialogsReducer(this._state.dialogsPages, action)
+        this._onChange()
 
     }
 }
