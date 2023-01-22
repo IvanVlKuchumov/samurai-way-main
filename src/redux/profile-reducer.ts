@@ -1,8 +1,24 @@
-import {DispatchType, PostPagesType, PostsType} from "./state";
+import {DispatchType} from "./store";
 
+export type PostPagesType = {
+    posts: PostsType[]
+    newPostText: string
+}
 
+export type PostsType = {
+    id: number
+    message: string
+    likesCount: number
+}
 
-export const profileReducer= (state:PostPagesType, action:DispatchType) => {
+const initialState:PostPagesType = {
+    posts: [{id: 1, message: 'Hello, my friend!', likesCount: 1},
+        {id: 2, message: 'The boy went to success, no luck.', likesCount: 0},
+        {id: 3, message: 'Chocolate is not to blame', likesCount: 100500}],
+    newPostText: ''
+}
+
+export const profileReducer= (state=initialState, action:DispatchType) => {
     switch (action.type) {
         case 'ADD-POST': {
             const newPost: PostsType = {
