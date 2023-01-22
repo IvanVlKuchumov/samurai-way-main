@@ -1,54 +1,53 @@
-import {addPostAC, profileReducer, updateNewPostAC} from "./profile-reducer";
-import {dialogsReducer, sendMessageAC, updateNewMessageBodyAC} from "./dialogs-reducer";
+import {addPostAC, updateNewPostAC} from "./profile-reducer";
+import {sendMessageAC, updateNewMessageBodyAC} from "./dialogs-reducer";
 
 
-export type MessagesType = {
+type MessagesType = {
     id: number
     message: string
 }
 
-export type PostsType = {
+type PostsType = {
     id: number
     message: string
     likesCount: number
 }
 
-export type DialogsType = {
+type DialogsType = {
     id: number
     name: string
 }
 
-export type PostPagesType = {
+type PostPagesType = {
     posts: PostsType[]
     newPostText: string
 }
 
-export type DialogsPagesType = {
+type DialogsPagesType = {
     dialogs: DialogsType[]
     messages: MessagesType[]
     newMessageBody: string
 }
 
-export type RootStateType = {
+type RootStateType = {
     postPages: PostPagesType
     dialogsPages: DialogsPagesType
 }
 
-export type StorePropsType = {
+type StorePropsType = {
     _state: RootStateType
     _onChange: () => void
     getState: () => RootStateType
     subscribe: (observer: () => void) => void
     dispatch: (action: DispatchType) => void
 }
-
-export type DispatchType =
+type DispatchType =
     ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostAC>
     | ReturnType<typeof updateNewMessageBodyAC>
     | ReturnType<typeof sendMessageAC>
 
-export const store: StorePropsType = {
+const store: StorePropsType = {
     _state: {
         postPages: {
             posts: [{id: 1, message: 'Hello, my friend!', likesCount: 1},
@@ -76,13 +75,15 @@ export const store: StorePropsType = {
         this._onChange = observer
     },
     dispatch(action) {
-        this._state.postPages = profileReducer(this._state.postPages, action)
-        this._state.dialogsPages = dialogsReducer(this._state.dialogsPages, action)
-        this._onChange()
+        console.log(action)
+        // this._state.postPages = profileReducer(this._state.postPages, action)
+        // this._state.dialogsPages = dialogsReducer(this._state.dialogsPages, action)
+        // this._onChange()
 
     }
 }
 
+console.log(store)
 
 
 

@@ -1,14 +1,15 @@
 import React from "react";
 import {Post} from "./Post/Post";
 import s from "./MyPosts.module.css"
-import {DispatchType, PostsType} from "../../../../redux/store";
-import {addPostAC, updateNewPostAC} from "../../../../redux/profile-reducer";
+import {PostsType} from "../../../../redux/profile-reducer";
 
 
 type MyPostsTypes = {
     posts: PostsType[]
     newPostText: string
-    dispatch: (action: DispatchType) => void
+    updateNewPost: (text: string) => void
+    addPost: () => void
+
 }
 
 
@@ -18,16 +19,14 @@ export const MyPosts: React.FC<MyPostsTypes> = (props) => {
 
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
-    const addPost = () => {
-        const text = newPostElement.current?.value
-        if (text) {
-            props.dispatch(addPostAC())
-        }
+    const onClickHandler = () => {
+        props.addPost()
     }
+
     const onChangeTextareaHandler = () => {
         const text = newPostElement.current?.value
         if (text) {
-            props.dispatch(updateNewPostAC(text))
+            props.updateNewPost(text)
         }
     }
 
@@ -38,7 +37,7 @@ export const MyPosts: React.FC<MyPostsTypes> = (props) => {
                 <textarea value={props.newPostText} onChange={onChangeTextareaHandler} ref={newPostElement}
                           className={s.textarea}/>
             </div>
-            <button onClick={addPost}>Add post</button>
+            <button onClick={onClickHandler}>Add post</button>
             <div>{postsElements}</div>
         </div>
     );

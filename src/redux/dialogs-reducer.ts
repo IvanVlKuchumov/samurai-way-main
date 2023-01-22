@@ -1,5 +1,3 @@
-import {DispatchType} from "./store";
-
 export type DialogsPagesType = {
     dialogs: DialogsType[]
     messages: MessagesType[]
@@ -17,8 +15,7 @@ export type MessagesType = {
 }
 
 
-
-const initialState:DialogsPagesType = {
+const initialState: DialogsPagesType = {
     dialogs: [{id: 1, name: 'Biba'},
         {id: 2, name: 'Boba'},
         {id: 3, name: 'Buba'}],
@@ -28,7 +25,8 @@ const initialState:DialogsPagesType = {
     newMessageBody: ''
 }
 
-export const dialogsReducer = (state = initialState, action:DispatchType) => {
+export const dialogsReducer = (state = initialState, action: ReturnType<typeof updateNewMessageBodyAC>
+    | ReturnType<typeof sendMessageAC>) => {
     switch (action.type) {
         case 'UPDATE-NEW-MESSAGE-BODY': {
             state.newMessageBody = action.payload.newMessageBody

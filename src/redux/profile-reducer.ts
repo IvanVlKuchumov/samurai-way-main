@@ -1,4 +1,4 @@
-import {DispatchType} from "./store";
+import {DispatchType} from "./redux-store";
 
 export type PostPagesType = {
     posts: PostsType[]
