@@ -5,9 +5,10 @@ import App from './App';
 import {store, StorePropsType} from "./redux/redux-store";
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
+import {AnyAction, Store} from "redux";
 
 
-const rerenderEntireTree = (store: StorePropsType) => {
+const rerenderEntireTree = (store: Store<StorePropsType>) => {
     ReactDOM.render(
         <Provider store={store}>
             <BrowserRouter>
