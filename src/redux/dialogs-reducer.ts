@@ -25,21 +25,25 @@ const initialState: DialogsPagesType = {
     newMessageBody: ''
 }
 
-export const dialogsReducer = (state = initialState, action: ReturnType<typeof updateNewMessageBodyAC>
-    | ReturnType<typeof sendMessageAC>) => {
+type DialogsReducersType = ReturnType<typeof updateNewMessageBodyAC> | ReturnType<typeof sendMessageAC>
+
+export const dialogsReducer = (state = initialState, action: DialogsReducersType): DialogsPagesType => {
     switch (action.type) {
-        case 'UPDATE-NEW-MESSAGE-BODY': {
-            state.newMessageBody = action.payload.newMessageBody
-            break
-        }
-        case 'SEND-MESSAGE': {
+        case 'UPDATE-NEW-MESSAGE-BODY':
+            return {
+                ...state,
+                newMessageBody: action.payload.newMessageBody
+            }
+        case 'SEND-MESSAGE':
             const newMessage: MessagesType = {
                 id: 4,
                 message: state.newMessageBody,
             }
-            state.messages.push(newMessage)
-            state.newMessageBody = ''
-        }
+            return {
+                ...state,
+                messages: [...state.messages, newMessage],
+                newMessageBody: ''
+            }
     }
     return state
 }

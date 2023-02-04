@@ -11,29 +11,34 @@ export type PostsType = {
     likesCount: number
 }
 
-const initialState:PostPagesType = {
+const initialState: PostPagesType = {
     posts: [{id: 1, message: 'Hello, my friend!', likesCount: 1},
         {id: 2, message: 'The boy went to success, no luck.', likesCount: 0},
         {id: 3, message: 'Chocolate is not to blame', likesCount: 100500}],
     newPostText: ''
 }
 
-export const profileReducer= (state=initialState, action:DispatchType) => {
+export const profileReducer = (state = initialState, action: DispatchType) => {
     switch (action.type) {
-        case 'ADD-POST': {
+        case 'ADD-POST':
             const newPost: PostsType = {
                 id: 5,
                 message: state.newPostText,
                 likesCount: 0
             }
-            state.posts.push(newPost)
-            state.newPostText = ''
-            break
-        }
-        case 'UPDATE-NEW-POST': {
+            return {
+                ...state,
+                posts: [...state.posts, newPost],
+                newPostText: ''
+            }
+
+        case 'UPDATE-NEW-POST':
             state.newPostText = action.payload.newPost
-            break
-        }
+            return {
+                ...state,
+                newPostText: action.payload.newPost
+            }
+
     }
     return state
 }
