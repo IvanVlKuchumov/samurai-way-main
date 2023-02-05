@@ -7,13 +7,18 @@ export type LocationType = {
     city: string
 }
 
+export type PhotoType ={
+    small:string
+    large:string
+}
+
 
 export type UserType = {
     id: number
-    fullName: string
+    name: string
     followed: boolean
     status: string
-    avatarUrl: string
+    photos: PhotoType
     location: LocationType
 }
 
@@ -25,41 +30,42 @@ export type UsersReducersType =
 
 const initialState: UsersPagesType = {
     users: [
-        {
-            id: 1,
-            fullName: 'Ivan',
-            followed: true,
-            status: 'it\'s crazy to be the first',
-            location: {
-                country: 'Russia',
-                city: 'Yaroslavl'
-            },
-            avatarUrl: 'https://rg.ru/uploads/images/gallery/84f24d10/18_401ada8a.jpg'
-        },
-        {
-            id: 2,
-            fullName: 'Borat',
-            followed: true,
-            status: 'just do it',
-            location: {
-                country: 'Russia',
-                city: 'Moscow'
-            },
-            avatarUrl: 'https://rg.ru/uploads/images/gallery/84f24d10/18_401ada8a.jpg'
-        },
-        {
-            id: 3,
-            fullName: 'John',
-            followed: false,
-            status: 'lya-lya-lya',
-            location: {
-                country: 'UA',
-                city: 'London'
-            },
-            avatarUrl: 'https://rg.ru/uploads/images/gallery/84f24d10/18_401ada8a.jpg'
-        }
+        // {
+//     id: 1,
+//         fullName: 'Ivan',
+//     followed: true,
+//     status: 'it\'s crazy to be the first',
+//     location: {
+//     country: 'Russia',
+//         city: 'Yaroslavl'
+// },
+//     avatarUrl: 'https://rg.ru/uploads/images/gallery/84f24d10/18_401ada8a.jpg'
+// },
+// {
+//     id: 2,
+//         fullName: 'Borat',
+//     followed: true,
+//     status: 'just do it',
+//     location: {
+//     country: 'Russia',
+//         city: 'Moscow'
+// },
+//     avatarUrl: 'https://rg.ru/uploads/images/gallery/84f24d10/18_401ada8a.jpg'
+// },
+// {
+//     id: 3,
+//         fullName: 'John',
+//     followed: false,
+//     status: 'lya-lya-lya',
+//     location: {
+//     country: 'UA',
+//         city: 'London'
+// },
+//     avatarUrl: 'https://rg.ru/uploads/images/gallery/84f24d10/18_401ada8a.jpg'
+// }
     ]
 }
+
 
 
 export const usersReducer = (state = initialState, action: UsersReducersType): UsersPagesType => {
