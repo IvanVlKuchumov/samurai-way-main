@@ -1,15 +1,15 @@
 import {combineReducers, createStore} from "redux";
-import {addPostAC, profileReducer, updateNewPostAC} from "./profile-reducer";
-import {dialogsReducer, sendMessageAC, updateNewMessageBodyAC} from "./dialogs-reducer";
+import { profileReducer, ProfileReducersType} from "./profile-reducer";
+import {dialogsReducer, DialogsReducersType} from "./dialogs-reducer";
 import {DialogsPagesType} from "./dialogs-reducer";
 import {PostPagesType} from "./profile-reducer";
+import {usersReducer, UsersReducersType} from "./users-reducer";
 
 
 export type DispatchType =
-    ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostAC>
-    | ReturnType<typeof updateNewMessageBodyAC>
-    | ReturnType<typeof sendMessageAC>
+    ProfileReducersType
+    | DialogsReducersType
+    | UsersReducersType
 
 export type RootStateType = {
     postPages: PostPagesType
@@ -26,6 +26,7 @@ export type StorePropsType = {
 const rootReducer = combineReducers({
     postPages: profileReducer,
     dialogsPages: dialogsReducer,
+    usersPages: usersReducer
 
 })
 

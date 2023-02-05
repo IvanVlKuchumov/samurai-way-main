@@ -25,7 +25,9 @@ const initialState: DialogsPagesType = {
     newMessageBody: ''
 }
 
-type DialogsReducersType = ReturnType<typeof updateNewMessageBodyAC> | ReturnType<typeof sendMessageAC>
+export type DialogsReducersType =
+    ReturnType<typeof updateNewMessageBodyAC>
+    | ReturnType<typeof sendMessageAC>
 
 export const dialogsReducer = (state = initialState, action: DialogsReducersType): DialogsPagesType => {
     switch (action.type) {
@@ -44,8 +46,9 @@ export const dialogsReducer = (state = initialState, action: DialogsReducersType
                 messages: [...state.messages, newMessage],
                 newMessageBody: ''
             }
+        default:
+            return state
     }
-    return state
 }
 
 export const updateNewMessageBodyAC = (newMessageBody: string) => {

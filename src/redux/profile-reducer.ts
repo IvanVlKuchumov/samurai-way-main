@@ -1,4 +1,3 @@
-import {DispatchType} from "./redux-store";
 
 export type PostPagesType = {
     posts: PostsType[]
@@ -18,7 +17,10 @@ const initialState: PostPagesType = {
     newPostText: ''
 }
 
-export const profileReducer = (state = initialState, action: DispatchType) => {
+export type ProfileReducersType = ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostAC>
+
+export const profileReducer = (state = initialState, action: ProfileReducersType) => {
     switch (action.type) {
         case 'ADD-POST':
             const newPost: PostsType = {
@@ -38,9 +40,9 @@ export const profileReducer = (state = initialState, action: DispatchType) => {
                 ...state,
                 newPostText: action.payload.newPost
             }
-
+        default:
+            return state
     }
-    return state
 }
 
 export const addPostAC = () => {

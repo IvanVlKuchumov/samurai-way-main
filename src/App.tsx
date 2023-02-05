@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import './App.css';
 import {Header} from './components/Header/Header'
 import {Navigation} from "./components/Navigation/Navigation";
@@ -8,6 +8,7 @@ import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {UsersContainer} from "./components/Users/UsersContainer";
 
 
 
@@ -20,9 +21,9 @@ const App = () => {
                 <Navigation/>
                 <div className="app-wrapper-content">
                     <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-                    <Route path='/profile'
-                           render={() => <Profile/>}/>
+                    <Route path='/profile' render={() => <Profile/>}/>
                     <Route path='/music' render={() => <Music/>}/>
+                    <Route path='/users' render={() => <UsersContainer/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>
                 </div>
