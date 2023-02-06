@@ -1,23 +1,22 @@
 import React from 'react';
-import {UsersPagesType, UserType} from "../../redux/users-reducer";
 import s from "./Users.module.css";
 import axios from "axios";
 import userPhoto from '../../assets/images/user.svg'
+import {MapDispatchPropsType, MapStatePropsType} from "./UsersContainer";
 
 
-export class Users extends React.Component<any, any> {
-    getUsers() {
-        if (this.usersPage.users.length === 0) {
-            axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-                this.setUsers(response.data.items)
-            })
-        }
+export class Users extends React.Component<MapStatePropsType & MapDispatchPropsType> {
+    constructor(props:MapStatePropsType & MapDispatchPropsType) {
+        super(props);
+        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
+            this.props.setUsers(response.data.items)
+        })
     }
 
     render() {
         return (
             <div>
-                {this.usersPage.users.map(u =>
+                {this.props.usersPage.users.map(u =>
                         <div key={u.id}>
                 <span>
                     <div>
@@ -26,10 +25,10 @@ export class Users extends React.Component<any, any> {
                         <div>
                             {u.followed
                                 ? <button onClick={() => {
-                                    this.unFollow(u.id)
+                                    this.props.unFollow(u.id)
                                 }}>Unfollow</button>
                                 : <button onClick={() => {
-                                    this.follow(u.id)
+                                    this.props.follow(u.id)
                                 }}>Follow</button>}
                         </div>
                 </span>
@@ -46,7 +45,7 @@ export class Users extends React.Component<any, any> {
             </div>
         )
     }
-};
+}
 
 
 

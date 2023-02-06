@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {Users} from "./Users";
 import {Dispatch} from "redux";
 
-type MapStatePropsType = {
+export type MapStatePropsType = {
     usersPage: UsersPagesType
 }
 
@@ -16,7 +16,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 }
 
 
-type MapDispatchPropsType = {
+export type MapDispatchPropsType = {
     follow: (userID: number) => void
     unFollow: (userID: number) => void
     setUsers: (users:Array<UserType>) => void
