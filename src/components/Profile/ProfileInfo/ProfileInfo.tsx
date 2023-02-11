@@ -1,17 +1,32 @@
 import s from "./ProfileInfo.module.css";
-import React from "react";
+import React, {FC} from "react";
+import {ProfileType} from "../../../redux/profile-reducer";
+import {Preloader} from "../../common/Preloader";
+
+export type ProfileInfoPropsType = {
+    profile: ProfileType | null
+}
 
 
-export const ProfileInfo = () => {
+export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile}) => {
+
+    if (!profile) {
+        return <Preloader/>
+    }
+
     return (
         <div>
             <div>
                 <img id={s.img_width_1}
-                     src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"/>
+                     src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
+                     alt='background'
+                />
             </div>
             <div className={s.descriptionBlock}>
                 <img id={s.img_width_2}
-                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXimJflwHru_9HwlTzkzmlYWhw5DMcWaApkg7EpQJrQL17oa2gWGWc8R79Bs936O5GAsA&usqp=CAU"/>
+                     src={profile.photos.large}
+                     alt='avatar'
+                />
             </div>
         </div>)
 }

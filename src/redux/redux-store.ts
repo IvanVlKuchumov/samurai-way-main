@@ -2,7 +2,7 @@ import {combineReducers, createStore} from "redux";
 import { profileReducer, ProfileReducersType} from "./profile-reducer";
 import {dialogsReducer, DialogsReducersType} from "./dialogs-reducer";
 import {DialogsPagesType} from "./dialogs-reducer";
-import {PostPagesType} from "./profile-reducer";
+import {ProfilePagesType} from "./profile-reducer";
 import {usersReducer, UsersReducersType} from "./users-reducer";
 
 
@@ -12,7 +12,7 @@ export type DispatchType =
     | UsersReducersType
 
 export type RootStateType = {
-    postPages: PostPagesType
+    profilePages: ProfilePagesType
     dialogsPages: DialogsPagesType
 }
 export type StorePropsType = {
@@ -23,8 +23,13 @@ export type StorePropsType = {
     dispatch: (action: DispatchType) => void
 }
 
+export type PhotoType ={
+    small:string
+    large:string
+}
+
 const rootReducer = combineReducers({
-    postPages: profileReducer,
+    profilePages: profileReducer,
     dialogsPages: dialogsReducer,
     usersPages: usersReducer
 

@@ -1,3 +1,5 @@
+import {PhotoType} from "./redux-store";
+
 export type UsersPagesType = {
     users: Array<UserType>
     totalUsersCount: number
@@ -11,11 +13,6 @@ export type LocationType = {
     city: string
 }
 
-export type PhotoType ={
-    small:string
-    large:string
-}
-
 
 export type UserType = {
     id: number
@@ -27,12 +24,12 @@ export type UserType = {
 }
 
 export type UsersReducersType =
-    ReturnType<typeof followAC>
-    | ReturnType<typeof unFollowAC>
-    | ReturnType<typeof setUsersAC>
-    | ReturnType<typeof setCurrentPageAC>
+    ReturnType<typeof follow>
+    | ReturnType<typeof unFollow>
+    | ReturnType<typeof setUsers>
+    | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
-    | ReturnType<typeof toggleIsFetchingAC>
+    | ReturnType<typeof toggleIsFetching>
 
 
 const initialState: UsersPagesType = {
@@ -70,7 +67,7 @@ export const usersReducer = (state = initialState, action: UsersReducersType): U
     }
 }
 
-export const followAC = (userID: number) => {
+export const follow = (userID: number) => {
     return {
         type: 'FOLLOW',
         payload: {
@@ -79,7 +76,7 @@ export const followAC = (userID: number) => {
     } as const
 }
 
-export const unFollowAC = (userID: number) => {
+export const unFollow = (userID: number) => {
     return {
         type: 'UNFOLLOW',
         payload: {
@@ -88,7 +85,7 @@ export const unFollowAC = (userID: number) => {
     } as const
 }
 
-export const setUsersAC = (users: Array<UserType>) => {
+export const setUsers = (users: Array<UserType>) => {
     return {
         type: 'SET-USERS',
         payload: {
@@ -97,7 +94,7 @@ export const setUsersAC = (users: Array<UserType>) => {
     } as const
 }
 
-export const setCurrentPageAC = (page: number) => {
+export const setCurrentPage = (page: number) => {
     return {
         type: 'SET-CURRENT-PAGE',
         payload: {
@@ -115,7 +112,7 @@ export const setTotalUsersCount = (totalCount: number) => {
     } as const
 }
 
-export const toggleIsFetchingAC = (isFetching:boolean) => {
+export const toggleIsFetching = (isFetching:boolean) => {
     return {
         type: 'TOGGLE-IS-FETCHING',
         payload: {

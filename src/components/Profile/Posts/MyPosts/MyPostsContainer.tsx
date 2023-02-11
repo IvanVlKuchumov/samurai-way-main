@@ -12,8 +12,8 @@ type MapStatePropsType = {
 }
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        posts: state.postPages.posts,
-        newPostText: state.postPages.newPostText
+        posts: state.profilePages.posts,
+        newPostText: state.profilePages.newPostText
     }
 }
 
