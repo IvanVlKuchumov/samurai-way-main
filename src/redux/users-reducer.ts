@@ -1,5 +1,8 @@
 export type UsersPagesType = {
     users: Array<UserType>
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
 }
 
 export type LocationType = {
@@ -26,44 +29,15 @@ export type UsersReducersType =
     ReturnType<typeof followAC>
     | ReturnType<typeof unFollowAC>
     | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setTotalUsersCount>
 
 
 const initialState: UsersPagesType = {
-    users: [
-        // {
-//     id: 1,
-//         fullName: 'Ivan',
-//     followed: true,
-//     status: 'it\'s crazy to be the first',
-//     location: {
-//     country: 'Russia',
-//         city: 'Yaroslavl'
-// },
-//     avatarUrl: 'https://rg.ru/uploads/images/gallery/84f24d10/18_401ada8a.jpg'
-// },
-// {
-//     id: 2,
-//         fullName: 'Borat',
-//     followed: true,
-//     status: 'just do it',
-//     location: {
-//     country: 'Russia',
-//         city: 'Moscow'
-// },
-//     avatarUrl: 'https://rg.ru/uploads/images/gallery/84f24d10/18_401ada8a.jpg'
-// },
-// {
-//     id: 3,
-//         fullName: 'John',
-//     followed: false,
-//     status: 'lya-lya-lya',
-//     location: {
-//     country: 'UA',
-//         city: 'London'
-// },
-//     avatarUrl: 'https://rg.ru/uploads/images/gallery/84f24d10/18_401ada8a.jpg'
-// }
-    ]
+    users: [],
+    totalUsersCount: 0,
+    pageSize: 15,
+    currentPage: 1
 }
 
 
@@ -77,7 +51,13 @@ export const usersReducer = (state = initialState, action: UsersReducersType): U
             return {...state, users: state.users.map(u => u.id === action.payload.userID ? {...u, followed: false} : u)}
 
         case 'SET-USERS':
-            return {...state, users: [...state.users, ...action.payload.users]}
+            return {...state, users: action.payload.users}
+
+        case 'SET-CURRENT-PAGE':
+            return {...state, currentPage: action.payload.page}
+
+        case 'SET-TOTAL-USERS-COUNT':
+            return {...state, totalUsersCount: action.payload.totalCount}
 
         default:
             return state
@@ -107,6 +87,24 @@ export const setUsersAC = (users: Array<UserType>) => {
         type: 'SET-USERS',
         payload: {
             users
+        }
+    } as const
+}
+
+export const setCurrentPageAC = (page: number) => {
+    return {
+        type: 'SET-CURRENT-PAGE',
+        payload: {
+            page
+        }
+    } as const
+}
+
+export const setTotalUsersCount = (totalCount: number) => {
+    return {
+        type: 'SET-TOTAL-USERS-COUNT',
+        payload: {
+            totalCount
         }
     } as const
 }
