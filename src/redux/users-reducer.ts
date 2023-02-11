@@ -3,6 +3,7 @@ export type UsersPagesType = {
     totalUsersCount: number
     pageSize: number
     currentPage: number
+    isFetching: boolean
 }
 
 export type LocationType = {
@@ -31,13 +32,15 @@ export type UsersReducersType =
     | ReturnType<typeof setUsersAC>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setTotalUsersCount>
+    | ReturnType<typeof toggleIsFetchingAC>
 
 
 const initialState: UsersPagesType = {
     users: [],
     totalUsersCount: 0,
     pageSize: 15,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: false
 }
 
 
@@ -58,6 +61,9 @@ export const usersReducer = (state = initialState, action: UsersReducersType): U
 
         case 'SET-TOTAL-USERS-COUNT':
             return {...state, totalUsersCount: action.payload.totalCount}
+
+        case 'TOGGLE-IS-FETCHING':
+            return {...state, isFetching: action.payload.isFetching}
 
         default:
             return state
@@ -105,6 +111,15 @@ export const setTotalUsersCount = (totalCount: number) => {
         type: 'SET-TOTAL-USERS-COUNT',
         payload: {
             totalCount
+        }
+    } as const
+}
+
+export const toggleIsFetchingAC = (isFetching:boolean) => {
+    return {
+        type: 'TOGGLE-IS-FETCHING',
+        payload: {
+            isFetching
         }
     } as const
 }

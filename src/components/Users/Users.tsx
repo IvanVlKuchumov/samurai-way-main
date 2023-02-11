@@ -1,14 +1,17 @@
 import React, {FC} from 'react';
 import s from "./Users.module.css";
 import userPhoto from '../../assets/images/user.svg'
-import {MapStatePropsType} from "./UsersContainer";
+import {UserType} from "../../redux/users-reducer";
 
 export type UsersPropsType = {
-        onPageChanged: (page: number) => void
-        follow: (userID: number) => void
-        unFollow: (userID: number) => void
-    }
-    & MapStatePropsType
+    onPageChanged: (page: number) => void
+    follow: (userID: number) => void
+    unFollow: (userID: number) => void
+    users: UserType[]
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+}
 
 
 export const Users: FC<UsersPropsType> = (props) => {
