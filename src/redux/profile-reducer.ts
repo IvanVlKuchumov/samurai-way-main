@@ -68,7 +68,8 @@ export const profileReducer = (state = initialState, action: ProfileReducersType
 
         case 'SET-USER-PROFILE':
             return {
-                ...state
+                ...state,
+                profile: action.payload.profile
             }
 
         default:

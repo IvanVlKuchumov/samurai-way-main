@@ -21,6 +21,7 @@ type MapDispatchPropsType = {
     updateNewPost: (body: string) => void
     addPost: () => void
 }
+
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
     return {
         updateNewPost: (body: string) => {
