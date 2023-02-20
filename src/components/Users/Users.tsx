@@ -6,8 +6,8 @@ import {NavLink} from "react-router-dom";
 
 export type UsersPropsType = {
     onPageChanged: (page: number) => void
-    follow: (userID: number) => void
-    unFollow: (userID: number) => void
+    followUser: (userID: number) => void
+    unfollowUser: (userID: number) => void
     users: UserType[]
     totalUsersCount: number
     pageSize: number
@@ -22,8 +22,8 @@ export const Users: FC<UsersPropsType> = (props) => {
         pageSize,
         currentPage,
         onPageChanged,
-        follow,
-        unFollow
+        followUser,
+        unfollowUser
     } = props
 
     const pagesCount = Math.ceil(totalUsersCount / pageSize)
@@ -53,12 +53,8 @@ export const Users: FC<UsersPropsType> = (props) => {
                     </div>
                         <div>
                             {u.followed
-                                ? <button onClick={() => {
-                                    unFollow(u.id)
-                                }}>Unfollow</button>
-                                : <button onClick={() => {
-                                    follow(u.id)
-                                }}>Follow</button>}
+                                ? <button onClick={() => {unfollowUser(u.id)}}>Unfollow</button>
+                                : <button onClick={() => {followUser(u.id)}}>Follow</button>}
                         </div>
                 </span>
                     <span>

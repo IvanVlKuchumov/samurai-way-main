@@ -10,9 +10,9 @@ import {
     UserType
 } from "../../redux/users-reducer";
 import {connect} from "react-redux";
-import axios from "axios";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader";
+import {usersAPI} from '../../api/api';
 
 export type MapStatePropsType = {
     users: UserType[]
@@ -37,21 +37,40 @@ class UsersAPIComponent extends React.Component<MapStatePropsType & MapDispatchP
 
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-            .then(response => {
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
+            .then(data => {
                 this.props.toggleIsFetching(false)
-                this.props.setUsers(response.data.items)
-                this.props.setTotalUsersCount(response.data.totalCount)
+                this.props.setUsers(data.items)
+                this.props.setTotalUsersCount(data.totalCount)
             })
     }
 
     onPageChanged(page: number) {
         this.props.setCurrentPage(page)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}`)
-            .then(response => {
-                console.log('hey')
-                this.props.setUsers(response.data.items)
+        usersAPI.getUsers(page, this.props.pageSize)
+            .then(data => {
+                this.props.setUsers(data.items)
             })
+    }
+
+    followUser (userID: number) {
+        usersAPI.followUser(userID)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    this.props.follow(userID)
+                }
+            })
+
+    }
+
+    unfollowUser (userID: number) {
+        usersAPI.unfollowUser(userID)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    this.props.unFollow(userID)
+                }
+            })
+
     }
 
     render() {
@@ -64,8 +83,8 @@ class UsersAPIComponent extends React.Component<MapStatePropsType & MapDispatchP
                     pageSize={this.props.pageSize}
                     currentPage={this.props.currentPage}
                     onPageChanged={this.onPageChanged.bind(this)}
-                    follow={this.props.follow}
-                    unFollow={this.props.unFollow}
+                    followUser={this.followUser.bind(this)}
+                    unfollowUser={this.unfollowUser.bind(this)}
                 />
             </>
         )

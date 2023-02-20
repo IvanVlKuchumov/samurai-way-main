@@ -13,7 +13,6 @@ import {HeaderContainer} from './components/Header/HeaderContainer';
 
 const App = () => {
     return (
-
         <div className="app-wrapper">
             <HeaderContainer/>
             <Navigation/>
