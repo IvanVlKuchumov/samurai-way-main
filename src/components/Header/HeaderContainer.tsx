@@ -14,7 +14,7 @@ export type MapStatePropsType = {
 
 
 export type MapDispatchPropsType ={
-    setAuthUserData: (userId: number, email: string, login: string) => ReturnType<typeof setAuthUserData>
+    setAuthUserData: (userId: number, email: string, login: string) => void
 }
 
 
@@ -26,14 +26,14 @@ export type MapDispatchPropsType ={
         })
             .then((response:AxiosResponse<AuthDataType>) => {
                 if (response.data.resultCode === 0) {
-                    const {id, login, email} = response.data.data
+                    const {id, email, login} = response.data.data
                     this.props.setAuthUserData(id, email, login)
                 }
             })
     }
 
     render() {
-        return <Header {...this.props}/>;
+        return <Header isAuth={this.props.isAuth} login={this.props.login}/>;
     }
 }
 
@@ -42,11 +42,13 @@ const mapStateToProps = (state:AppStateType) => ({
     login: state.auth.login
 })
 
+/*
 const mapDispatchToProps = () => {
   return {
-      setAuthUserData
+
   }
 }
+*/
 
 
-export const HeaderContainer = connect(mapStateToProps, mapDispatchToProps) (HeaderAPIComponent)
+export const HeaderContainer = connect(mapStateToProps, {setAuthUserData}) (HeaderAPIComponent)

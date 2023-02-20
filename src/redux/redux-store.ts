@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
     profilePages: profileReducer,
     dialogsPages: dialogsReducer,
     usersPages: usersReducer,
-    auth: authReducer
+    auth: authReducer,
 
 })
 
