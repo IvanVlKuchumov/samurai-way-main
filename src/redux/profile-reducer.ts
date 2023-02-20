@@ -1,4 +1,4 @@
-import {PhotoType} from "./redux-store";
+
 
 export type ProfilePagesType = {
     posts: PostsType[]
@@ -31,6 +31,11 @@ export type ContactsType = {
     youtube: string
     github: string
     mainLink: string
+}
+
+export type PhotoType ={
+    small:string
+    large:string
 }
 
 const initialState: ProfilePagesType = {

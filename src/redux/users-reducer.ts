@@ -1,5 +1,3 @@
-import {PhotoType} from "./redux-store";
-
 export type UsersPagesType = {
     users: Array<UserType>
     totalUsersCount: number
@@ -21,6 +19,11 @@ export type UserType = {
     status: string
     photos: PhotoType
     location: LocationType
+}
+
+export type PhotoType ={
+    small:string
+    large:string
 }
 
 export type UsersReducersType =

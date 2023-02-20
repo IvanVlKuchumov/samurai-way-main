@@ -1,37 +1,16 @@
 import {combineReducers, createStore} from "redux";
-import { profileReducer, ProfileReducersType} from "./profile-reducer";
-import {dialogsReducer, DialogsReducersType} from "./dialogs-reducer";
-import {DialogsPagesType} from "./dialogs-reducer";
-import {ProfilePagesType} from "./profile-reducer";
-import {usersReducer, UsersReducersType} from "./users-reducer";
+import {profileReducer} from "./profile-reducer";
+import {dialogsReducer} from "./dialogs-reducer";
+import {usersReducer} from "./users-reducer";
+import {authReducer} from './auth-reducer';
 
 
-export type DispatchType =
-    ProfileReducersType
-    | DialogsReducersType
-    | UsersReducersType
-
-export type RootStateType = {
-    profilePages: ProfilePagesType
-    dialogsPages: DialogsPagesType
-}
-export type StorePropsType = {
-    state: RootStateType
-    onChange: () => void
-    getState: () => RootStateType
-    subscribe: (observer: () => void) => void
-    dispatch: (action: DispatchType) => void
-}
-
-export type PhotoType ={
-    small:string
-    large:string
-}
 
 const rootReducer = combineReducers({
     profilePages: profileReducer,
     dialogsPages: dialogsReducer,
-    usersPages: usersReducer
+    usersPages: usersReducer,
+    auth: authReducer
 
 })
 
