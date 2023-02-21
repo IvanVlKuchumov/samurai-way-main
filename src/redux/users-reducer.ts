@@ -4,6 +4,7 @@ export type UsersPagesType = {
     pageSize: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: boolean
 }
 
 export type LocationType = {
@@ -33,6 +34,7 @@ export type UsersReducersType =
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof toggleFollowingProgress>
 
 
 const initialState: UsersPagesType = {
@@ -40,7 +42,8 @@ const initialState: UsersPagesType = {
     totalUsersCount: 0,
     pageSize: 15,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: false
 }
 
 
@@ -64,6 +67,9 @@ export const usersReducer = (state = initialState, action: UsersReducersType): U
 
         case 'TOGGLE-IS-FETCHING':
             return {...state, isFetching: action.payload.isFetching}
+
+        case 'TOGGLE-IS-FOLLOWING-IN-PROGRESS':
+            return {...state, followingInProgress: action.payload.followingInProgress}
 
         default:
             return state
@@ -124,4 +130,12 @@ export const toggleIsFetching = (isFetching:boolean) => {
     } as const
 }
 
+export const toggleFollowingProgress = (followingInProgress:boolean) => {
+    return {
+        type: 'TOGGLE-IS-FOLLOWING-IN-PROGRESS',
+        payload: {
+            followingInProgress
+        }
+    } as const
+}
 

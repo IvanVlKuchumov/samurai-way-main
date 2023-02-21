@@ -4,7 +4,7 @@ import {
     follow,
     setCurrentPage,
     setTotalUsersCount,
-    setUsers,
+    setUsers, toggleFollowingProgress,
     toggleIsFetching,
     unFollow,
     UserType
@@ -20,17 +20,18 @@ export type MapStatePropsType = {
     pageSize: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: boolean
 }
 
 export type MapDispatchPropsType = {
-    follow: (userID: number) => void
-    unFollow: (userID: number) => void
-    setUsers: (users: Array<UserType>) => void
-    setCurrentPage: (page: number) => void
-    toggleIsFetching: (isFetching: boolean) => void
-    setTotalUsersCount: (totalCount: number) => void
+    follow: (userID: number) => ReturnType<typeof follow>
+    unFollow: (userID: number) => ReturnType<typeof unFollow>
+    setUsers: (users: Array<UserType>) => ReturnType<typeof setUsers>
+    setCurrentPage: (page: number) => ReturnType<typeof setCurrentPage>
+    toggleIsFetching: (isFetching: boolean) => ReturnType<typeof toggleIsFetching>
+    setTotalUsersCount: (totalCount: number) => ReturnType<typeof setTotalUsersCount>
+    toggleFollowingProgress: (followingInProgress: boolean) => ReturnType<typeof toggleFollowingProgress>
 }
-
 
 
 class UsersAPIComponent extends React.Component<MapStatePropsType & MapDispatchPropsType> {
@@ -53,22 +54,26 @@ class UsersAPIComponent extends React.Component<MapStatePropsType & MapDispatchP
             })
     }
 
-    followUser (userID: number) {
+    followUser(userID: number) {
+        this.props.toggleFollowingProgress(true)
         usersAPI.followUser(userID)
             .then(data => {
                 if (data.resultCode === 0) {
                     this.props.follow(userID)
                 }
+                this.props.toggleFollowingProgress(false)
             })
 
     }
 
-    unfollowUser (userID: number) {
+    unfollowUser(userID: number) {
+        this.props.toggleFollowingProgress(true)
         usersAPI.unfollowUser(userID)
             .then(data => {
                 if (data.resultCode === 0) {
                     this.props.unFollow(userID)
                 }
+                this.props.toggleFollowingProgress(false)
             })
 
     }
@@ -85,6 +90,7 @@ class UsersAPIComponent extends React.Component<MapStatePropsType & MapDispatchP
                     onPageChanged={this.onPageChanged.bind(this)}
                     followUser={this.followUser.bind(this)}
                     unfollowUser={this.unfollowUser.bind(this)}
+                    followingInProgress={this.props.followingInProgress}
                 />
             </>
         )
@@ -97,7 +103,8 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
         totalUsersCount: state.usersPages.totalUsersCount,
         pageSize: state.usersPages.pageSize,
         currentPage: state.usersPages.currentPage,
-        isFetching: state.usersPages.isFetching
+        isFetching: state.usersPages.isFetching,
+        followingInProgress: state.usersPages.followingInProgress
     }
 }
 
@@ -107,6 +114,7 @@ export const UsersContainer = connect(mapStateToProps, {
     setUsers,
     setCurrentPage,
     setTotalUsersCount,
-    toggleIsFetching
+    toggleIsFetching,
+    toggleFollowingProgress
 })(UsersAPIComponent)
 

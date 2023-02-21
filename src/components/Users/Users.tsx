@@ -12,6 +12,7 @@ export type UsersPropsType = {
     totalUsersCount: number
     pageSize: number
     currentPage: number
+    followingInProgress: boolean
 }
 
 
@@ -23,7 +24,8 @@ export const Users: FC<UsersPropsType> = (props) => {
         currentPage,
         onPageChanged,
         followUser,
-        unfollowUser
+        unfollowUser,
+        followingInProgress
     } = props
 
     const pagesCount = Math.ceil(totalUsersCount / pageSize)
@@ -53,8 +55,8 @@ export const Users: FC<UsersPropsType> = (props) => {
                     </div>
                         <div>
                             {u.followed
-                                ? <button onClick={() => {unfollowUser(u.id)}}>Unfollow</button>
-                                : <button onClick={() => {followUser(u.id)}}>Follow</button>}
+                                ? <button onClick={() => {unfollowUser(u.id)}} disabled={followingInProgress}>Unfollow</button>
+                                : <button onClick={() => {followUser(u.id)}} disabled={followingInProgress}>Follow</button>}
                         </div>
                 </span>
                     <span>
