@@ -12,7 +12,7 @@ export type UsersPropsType = {
     totalUsersCount: number
     pageSize: number
     currentPage: number
-    followingInProgress: boolean
+    followingInProgress: Array<number>
 }
 
 
@@ -55,8 +55,8 @@ export const Users: FC<UsersPropsType> = (props) => {
                     </div>
                         <div>
                             {u.followed
-                                ? <button onClick={() => {unfollowUser(u.id)}} disabled={followingInProgress}>Unfollow</button>
-                                : <button onClick={() => {followUser(u.id)}} disabled={followingInProgress}>Follow</button>}
+                                ? <button onClick={() => {unfollowUser(u.id)}} disabled={followingInProgress.some(el => el === u.id)}>Unfollow</button>
+                                : <button onClick={() => {followUser(u.id)}} disabled={followingInProgress.some(el => el === u.id)}>Follow</button>}
                         </div>
                 </span>
                     <span>

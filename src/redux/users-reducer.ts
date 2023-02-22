@@ -4,7 +4,7 @@ export type UsersPagesType = {
     pageSize: number
     currentPage: number
     isFetching: boolean
-    followingInProgress: boolean
+    followingInProgress: Array<number>
 }
 
 export type LocationType = {
@@ -22,9 +22,9 @@ export type UserType = {
     location: LocationType
 }
 
-export type PhotoType ={
-    small:string
-    large:string
+export type PhotoType = {
+    small: string
+    large: string
 }
 
 export type UsersReducersType =
@@ -43,9 +43,8 @@ const initialState: UsersPagesType = {
     pageSize: 15,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: false
+    followingInProgress: []
 }
-
 
 
 export const usersReducer = (state = initialState, action: UsersReducersType): UsersPagesType => {
@@ -68,8 +67,13 @@ export const usersReducer = (state = initialState, action: UsersReducersType): U
         case 'TOGGLE-IS-FETCHING':
             return {...state, isFetching: action.payload.isFetching}
 
-        case 'TOGGLE-IS-FOLLOWING-IN-PROGRESS':
-            return {...state, followingInProgress: action.payload.followingInProgress}
+        case 'TOGGLE-IS-FOLLOWING-PROGRESS':
+            return {
+                ...state,
+                followingInProgress: action.payload.isFetching
+                    ? [...state.followingInProgress, action.payload.userId]
+                    : state.followingInProgress.filter(id => id !== action.payload.userId)
+            }
 
         default:
             return state
@@ -121,7 +125,7 @@ export const setTotalUsersCount = (totalCount: number) => {
     } as const
 }
 
-export const toggleIsFetching = (isFetching:boolean) => {
+export const toggleIsFetching = (isFetching: boolean) => {
     return {
         type: 'TOGGLE-IS-FETCHING',
         payload: {
@@ -130,11 +134,12 @@ export const toggleIsFetching = (isFetching:boolean) => {
     } as const
 }
 
-export const toggleFollowingProgress = (followingInProgress:boolean) => {
+export const toggleFollowingProgress = (isFetching: boolean, userId: number) => {
     return {
-        type: 'TOGGLE-IS-FOLLOWING-IN-PROGRESS',
+        type: 'TOGGLE-IS-FOLLOWING-PROGRESS',
         payload: {
-            followingInProgress
+            isFetching,
+            userId
         }
     } as const
 }

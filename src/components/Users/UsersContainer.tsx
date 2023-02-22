@@ -20,7 +20,7 @@ export type MapStatePropsType = {
     pageSize: number
     currentPage: number
     isFetching: boolean
-    followingInProgress: boolean
+    followingInProgress: Array<number>
 }
 
 export type MapDispatchPropsType = {
@@ -30,7 +30,7 @@ export type MapDispatchPropsType = {
     setCurrentPage: (page: number) => ReturnType<typeof setCurrentPage>
     toggleIsFetching: (isFetching: boolean) => ReturnType<typeof toggleIsFetching>
     setTotalUsersCount: (totalCount: number) => ReturnType<typeof setTotalUsersCount>
-    toggleFollowingProgress: (followingInProgress: boolean) => ReturnType<typeof toggleFollowingProgress>
+    toggleFollowingProgress: (isFetching: boolean, userId: number) => ReturnType<typeof toggleFollowingProgress>
 }
 
 
@@ -55,25 +55,25 @@ class UsersAPIComponent extends React.Component<MapStatePropsType & MapDispatchP
     }
 
     followUser(userID: number) {
-        this.props.toggleFollowingProgress(true)
+        this.props.toggleFollowingProgress(true, userID)
         usersAPI.followUser(userID)
             .then(data => {
                 if (data.resultCode === 0) {
                     this.props.follow(userID)
                 }
-                this.props.toggleFollowingProgress(false)
+                this.props.toggleFollowingProgress(false, userID)
             })
 
     }
 
     unfollowUser(userID: number) {
-        this.props.toggleFollowingProgress(true)
+        this.props.toggleFollowingProgress(true, userID)
         usersAPI.unfollowUser(userID)
             .then(data => {
                 if (data.resultCode === 0) {
                     this.props.unFollow(userID)
                 }
-                this.props.toggleFollowingProgress(false)
+                this.props.toggleFollowingProgress(false, userID)
             })
 
     }
