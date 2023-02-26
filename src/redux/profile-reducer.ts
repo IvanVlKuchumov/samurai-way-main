@@ -46,7 +46,8 @@ const initialState: ProfilePagesType = {
     profile: null
 }
 
-export type ProfileReducersType = ReturnType<typeof addPostAC>
+export type ProfileReducersType =
+    ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostAC>
     | ReturnType<typeof setUserProfile>
 

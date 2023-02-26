@@ -1,3 +1,6 @@
+import {Dispatch} from 'redux';
+import {usersAPI} from '../api/api';
+
 export type UsersPagesType = {
     users: Array<UserType>
     totalUsersCount: number
@@ -28,13 +31,13 @@ export type PhotoType = {
 }
 
 export type UsersReducersType =
-    ReturnType<typeof follow>
-    | ReturnType<typeof unFollow>
-    | ReturnType<typeof setUsers>
-    | ReturnType<typeof setCurrentPage>
-    | ReturnType<typeof setTotalUsersCount>
-    | ReturnType<typeof toggleIsFetching>
-    | ReturnType<typeof toggleFollowingProgress>
+    ReturnType<typeof followAC>
+    | ReturnType<typeof unFollowAC>
+    | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setTotalUsersCountAC>
+    | ReturnType<typeof toggleIsFetchingAC>
+    | ReturnType<typeof toggleFollowingProgressAC>
 
 
 const initialState: UsersPagesType = {
@@ -80,7 +83,7 @@ export const usersReducer = (state = initialState, action: UsersReducersType): U
     }
 }
 
-export const follow = (userID: number) => {
+export const followAC = (userID: number) => {
     return {
         type: 'FOLLOW',
         payload: {
@@ -89,7 +92,7 @@ export const follow = (userID: number) => {
     } as const
 }
 
-export const unFollow = (userID: number) => {
+export const unFollowAC = (userID: number) => {
     return {
         type: 'UNFOLLOW',
         payload: {
@@ -98,7 +101,7 @@ export const unFollow = (userID: number) => {
     } as const
 }
 
-export const setUsers = (users: Array<UserType>) => {
+export const setUsersAC = (users: Array<UserType>) => {
     return {
         type: 'SET-USERS',
         payload: {
@@ -107,7 +110,7 @@ export const setUsers = (users: Array<UserType>) => {
     } as const
 }
 
-export const setCurrentPage = (page: number) => {
+export const setCurrentPageAC = (page: number) => {
     return {
         type: 'SET-CURRENT-PAGE',
         payload: {
@@ -116,7 +119,7 @@ export const setCurrentPage = (page: number) => {
     } as const
 }
 
-export const setTotalUsersCount = (totalCount: number) => {
+export const setTotalUsersCountAC = (totalCount: number) => {
     return {
         type: 'SET-TOTAL-USERS-COUNT',
         payload: {
@@ -125,7 +128,7 @@ export const setTotalUsersCount = (totalCount: number) => {
     } as const
 }
 
-export const toggleIsFetching = (isFetching: boolean) => {
+export const toggleIsFetchingAC = (isFetching: boolean) => {
     return {
         type: 'TOGGLE-IS-FETCHING',
         payload: {
@@ -134,7 +137,7 @@ export const toggleIsFetching = (isFetching: boolean) => {
     } as const
 }
 
-export const toggleFollowingProgress = (isFetching: boolean, userId: number) => {
+export const toggleFollowingProgressAC = (isFetching: boolean, userId: number) => {
     return {
         type: 'TOGGLE-IS-FOLLOWING-PROGRESS',
         payload: {
@@ -142,5 +145,18 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number) => 
             userId
         }
     } as const
+}
+
+
+export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+    return (dispatch: Dispatch<UsersReducersType>) => {
+        toggleIsFetchingAC(true)
+        usersAPI.getUsers(currentPage, pageSize)
+            .then(data => {
+                dispatch(toggleIsFetchingAC(false))
+                dispatch(setUsersAC(data.items))
+                dispatch(setTotalUsersCountAC(data.totalCount))
+            })
+    }
 }
 
