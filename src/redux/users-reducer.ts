@@ -148,14 +148,27 @@ export const toggleFollowingProgressAC = (isFetching: boolean, userId: number) =
 }
 
 
-export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+export const getUsers = (currentPage: number, pageSize: number) => {
     return (dispatch: Dispatch<UsersReducersType>) => {
-        toggleIsFetchingAC(true)
+        dispatch(toggleIsFetchingAC(true))
         usersAPI.getUsers(currentPage, pageSize)
             .then(data => {
                 dispatch(toggleIsFetchingAC(false))
                 dispatch(setUsersAC(data.items))
                 dispatch(setTotalUsersCountAC(data.totalCount))
+            })
+    }
+}
+
+export const follow = (userId: number) => {
+    return (dispatch: Dispatch<UsersReducersType>) => {
+        dispatch(toggleFollowingProgressAC(true, userId))
+        usersAPI.followUser(userId)
+            .then(data => {
+                if (data.resultCode === 0) {
+                   dispatch(followAC(userId))
+                }
+                dispatch(toggleFollowingProgressAC(false, userId))
             })
     }
 }

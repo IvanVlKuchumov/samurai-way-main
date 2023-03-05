@@ -1,10 +1,9 @@
 import React from 'react';
 import {Header} from './Header';
-import axios, {AxiosResponse} from 'axios';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
-import {setAuthUserData} from '../../redux/auth-reducer';
-import {AuthDataType} from '../../redux/auth-reducer';
+import {checkAuth} from '../../redux/auth-reducer';
+import {Dispatch} from 'redux';
 
 
 export type MapStatePropsType = {
@@ -13,23 +12,15 @@ export type MapStatePropsType = {
 }
 
 
-export type MapDispatchPropsType ={
-    setAuthUserData: (userId: number, email: string, login: string) => void
+export type MapDispatchPropsType = {
+    setAuthUserData: () => void
 }
 
 
- class HeaderAPIComponent extends React.Component<MapStatePropsType & MapDispatchPropsType> {
+class HeaderAPIComponent extends React.Component<MapStatePropsType & MapDispatchPropsType> {
 
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-            withCredentials: true
-        })
-            .then((response:AxiosResponse<AuthDataType>) => {
-                if (response.data.resultCode === 0) {
-                    const {id, email, login} = response.data.data
-                    this.props.setAuthUserData(id, email, login)
-                }
-            })
+        this.props.setAuthUserData()
     }
 
     render() {
@@ -37,18 +28,19 @@ export type MapDispatchPropsType ={
     }
 }
 
-const mapStateToProps = (state:AppStateType) => ({
+const mapStateToProps = (state: AppStateType) => ({
     isAuth: state.auth.isAuth,
     login: state.auth.login
 })
 
-/*
-const mapDispatchToProps = () => {
-  return {
 
-  }
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
+    return {
+        setAuthUserData: () => {
+            checkAuth()(dispatch)
+        }
+    }
 }
-*/
 
 
-export const HeaderContainer = connect(mapStateToProps, {setAuthUserData}) (HeaderAPIComponent)
+export const HeaderContainer = connect(mapStateToProps, mapDispatchToProps)(HeaderAPIComponent)

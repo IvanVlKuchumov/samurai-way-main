@@ -3,31 +3,41 @@ import s from "./Dialogs.module.css";
 import {DialogsItem} from "./DialogsItem/DialogsItem";
 import {Message} from "./Message/Message";
 import {DialogsPagesType} from "../../redux/dialogs-reducer";
+import {Redirect} from 'react-router-dom';
 
 type DialogsType = {
     dialogsPages: DialogsPagesType
     updateNewMessageBody: (body: string) => void
     sendMessage: () => void
+    isAuth: boolean
 }
 
 
 export const Dialogs: React.FC<DialogsType> = (props) => {
+    const {
+        dialogsPages,
+        updateNewMessageBody,
+        sendMessage,
+        isAuth
+    } = props
 
-    const dialogsElements = props.dialogsPages.dialogs.map(d => <DialogsItem name={d.name} id={d.id}/>)
+    const dialogsElements = dialogsPages.dialogs.map(d => <DialogsItem name={d.name} id={d.id}/>)
 
-    const messagesElements = props.dialogsPages.messages.map(m => <Message message={m.message}/>)
+    const messagesElements = dialogsPages.messages.map(m => <Message message={m.message}/>)
 
-    const newMessageBody = props.dialogsPages.newMessageBody
+    const newMessageBody = dialogsPages.newMessageBody
 
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const body = e.currentTarget?.value
-        props.updateNewMessageBody(body)
+        updateNewMessageBody(body)
     }
 
 
     const onSendMessageClick = () => {
-        props.sendMessage()
+        sendMessage()
     }
+
+    if (!isAuth) return <Redirect to={'/login'}/>
 
     return (
         <div className={s.dialogs}>

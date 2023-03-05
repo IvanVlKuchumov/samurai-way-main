@@ -1,8 +1,8 @@
 import React from 'react';
 import {AppStateType} from "../../redux/redux-store";
 import {
-    followAC,
-    getUsersThunkCreator,
+    follow,
+    getUsers,
     toggleFollowingProgressAC,
     toggleIsFetchingAC,
     unFollowAC,
@@ -25,7 +25,7 @@ export type MapStatePropsType = {
 
 export type MapDispatchPropsType = {
     follow: (userID: number) => void
-    unFollow: (userID: number) => void
+    unfollow: (userID: number) => void
     toggleIsFetching: (isFetching: boolean) => void
     toggleFollowingProgress: (isFetching: boolean, userId: number) => void
     getUsers: (currentPage: number, pageSize: number) => void
@@ -43,15 +43,7 @@ class UsersAPIComponent extends React.Component<MapStatePropsType & MapDispatchP
     }
 
     followUser(userID: number) {
-        this.props.toggleFollowingProgress(true, userID)
-        usersAPI.followUser(userID)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    this.props.follow(userID)
-                }
-                this.props.toggleFollowingProgress(false, userID)
-            })
-
+        this.props.follow(userID)
     }
 
     unfollowUser(userID: number) {
@@ -59,7 +51,7 @@ class UsersAPIComponent extends React.Component<MapStatePropsType & MapDispatchP
         usersAPI.unfollowUser(userID)
             .then(data => {
                 if (data.resultCode === 0) {
-                    this.props.unFollow(userID)
+                    this.props.unfollow(userID)
                 }
                 this.props.toggleFollowingProgress(false, userID)
             })
@@ -99,9 +91,9 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
     return {
         follow: (userID: number) => {
-            dispatch(followAC(userID))
+            follow(userID)(dispatch)
         },
-        unFollow: (userID: number) => {
+        unfollow: (userID: number) => {
             dispatch(unFollowAC(userID))
         },
         toggleIsFetching: (isFetching: boolean) => {
@@ -111,7 +103,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
             dispatch(toggleFollowingProgressAC(isFetching, userId))
         },
         getUsers: (currentPage: number, pageSize: number) => {
-            getUsersThunkCreator(currentPage, pageSize)(dispatch)
+            getUsers(currentPage, pageSize)(dispatch)
         }
     }
 

@@ -1,3 +1,6 @@
+import {Dispatch} from 'redux';
+import {headersAPI} from '../api/api';
+
 export type AuthType = {
     id: number
     email: string
@@ -20,7 +23,7 @@ export type AuthDataType = {
 }
 
 
-export type AuthReducerType = ReturnType<typeof setAuthUserData>
+export type AuthReducerType = ReturnType<typeof setAuthUserDataAC>
 
 
 export const authReducer = (state: AuthType = initialState, action: AuthReducerType): AuthType => {
@@ -40,7 +43,7 @@ export const authReducer = (state: AuthType = initialState, action: AuthReducerT
 }
 
 
-export const setAuthUserData = (userId: number, email: string, login: string) => {
+export const setAuthUserDataAC = (userId: number, email: string, login: string) => {
     return {
         type: 'SET_USER_DATA',
         payload: {
@@ -49,4 +52,19 @@ export const setAuthUserData = (userId: number, email: string, login: string) =>
             login
         }
     } as const
+}
+
+export const checkAuth = () => {
+    return (dispatch: Dispatch<AuthReducerType>) => {
+        headersAPI.checkAuth()
+            .then(
+                (data) => {
+                    if (data.resultCode === 0) {
+                        const {id, email, login} = data.data
+                        dispatch(setAuthUserDataAC(id, email, login))
+                    }
+                }
+            )
+    }
+
 }

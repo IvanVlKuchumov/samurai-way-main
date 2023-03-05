@@ -1,3 +1,5 @@
+import {profileAPI} from '../api/api';
+import {Dispatch} from 'redux';
 
 
 export type ProfilePagesType = {
@@ -33,9 +35,9 @@ export type ContactsType = {
     mainLink: string
 }
 
-export type PhotoType ={
-    small:string
-    large:string
+export type PhotoType = {
+    small: string
+    large: string
 }
 
 const initialState: ProfilePagesType = {
@@ -49,7 +51,7 @@ const initialState: ProfilePagesType = {
 export type ProfileReducersType =
     ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostAC>
-    | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setUserProfileAC>
 
 export const profileReducer = (state = initialState, action: ProfileReducersType) => {
     switch (action.type) {
@@ -98,11 +100,22 @@ export const updateNewPostAC = (newPost: string) => {
     } as const
 }
 
-export const setUserProfile = (profile: ProfileType) => {
+export const setUserProfileAC = (profile: ProfileType) => {
     return {
         type: 'SET-USER-PROFILE',
         payload: {
             profile
         }
     } as const
+}
+
+export const setUsersProfile = (userId: number) => {
+    return (dispatch: Dispatch<ProfileReducersType>) => {
+        profileAPI.setUsersProfile(userId)
+            .then(data => {
+                    console.log(data, 'data')
+                    dispatch(setUserProfileAC(data))
+                }
+            )
+    }
 }
