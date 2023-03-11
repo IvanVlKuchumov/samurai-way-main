@@ -16,11 +16,7 @@ const initialState: AuthType = {
     isAuth: false
 }
 
-export type AuthDataType = {
-    data: AuthType
-    resultCode: number
-    messages: []
-}
+
 
 
 export type AuthReducerType = ReturnType<typeof setAuthUserDataAC>
