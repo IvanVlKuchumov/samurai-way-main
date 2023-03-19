@@ -1,16 +1,13 @@
 import s from "./ProfileInfo.module.css";
 import React, {FC} from "react";
-import {ProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader";
 import userPhoto from '../../../assets/images/user.svg'
 import {ProfileStatus} from '../ProfileStatus';
-
-export type ProfileInfoPropsType = {
-    profile: ProfileType | null
-}
+import {ProfilePropsType} from '../Profile';
 
 
-export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile}) => {
+
+export const ProfileInfo: FC<ProfilePropsType> = ({profile, status, updateStatus}) => {
 
     if (!profile) {
         return <Preloader/>
@@ -30,7 +27,7 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile}) => {
                      alt='avatar'
                 />
             </div>
-            <ProfileStatus status={profile.aboutMe}/>
+            <ProfileStatus status={status} updateStatus={updateStatus}/>
         </div>
     )
 }

@@ -6,6 +6,7 @@ export type ProfilePagesType = {
     posts: PostsType[]
     newPostText: string
     profile: ProfileType | null
+    status: string
 }
 
 export type PostsType = {
@@ -45,13 +46,15 @@ const initialState: ProfilePagesType = {
         {id: 2, message: 'The boy went to success, no luck.', likesCount: 0},
         {id: 3, message: 'Chocolate is not to blame', likesCount: 100500}],
     newPostText: '',
-    profile: null
+    profile: null,
+    status: ''
 }
 
 export type ProfileReducersType =
     ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostAC>
     | ReturnType<typeof setUserProfileAC>
+    | ReturnType<typeof setStatusAC>
 
 export const profileReducer = (state = initialState, action: ProfileReducersType) => {
     switch (action.type) {
@@ -78,6 +81,12 @@ export const profileReducer = (state = initialState, action: ProfileReducersType
             return {
                 ...state,
                 profile: action.payload.profile
+            }
+
+        case 'SET-STATUS':
+            return {
+                ...state,
+                status: action.payload.status
             }
 
         default:
@@ -109,12 +118,43 @@ export const setUserProfileAC = (profile: ProfileType) => {
     } as const
 }
 
+export const setStatusAC = (status: string) => {
+    return {
+        type: 'SET-STATUS',
+        payload: {
+            status
+        }
+    } as const
+}
+
+
 export const setUsersProfile = (userId: number) => {
     return (dispatch: Dispatch<ProfileReducersType>) => {
         profileAPI.setUsersProfile(userId)
             .then(data => {
-                    console.log(data, 'data')
                     dispatch(setUserProfileAC(data))
+                }
+            )
+    }
+}
+
+export const getStatus = (userId: number) => {
+    return (dispatch: Dispatch<ProfileReducersType>) => {
+        profileAPI.getStatus(userId)
+            .then(data => {
+                    dispatch(setStatusAC(data))
+                }
+            )
+    }
+}
+
+export const updateStatus = (status: string) => {
+    return (dispatch: Dispatch<ProfileReducersType>) => {
+        profileAPI.updateStatus(status)
+            .then(data => {
+                    if (data.resultCode === 0) {
+                        dispatch(setStatusAC(status))
+                    }
                 }
             )
     }
