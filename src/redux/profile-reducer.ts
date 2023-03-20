@@ -4,7 +4,6 @@ import {Dispatch} from 'redux';
 
 export type ProfilePagesType = {
     posts: PostsType[]
-    newPostText: string
     profile: ProfileType | null
     status: string
 }
@@ -45,14 +44,12 @@ const initialState: ProfilePagesType = {
     posts: [{id: 1, message: 'Hello, my friend!', likesCount: 1},
         {id: 2, message: 'The boy went to success, no luck.', likesCount: 0},
         {id: 3, message: 'Chocolate is not to blame', likesCount: 100500}],
-    newPostText: '',
     profile: null,
     status: ''
 }
 
 export type ProfileReducersType =
     ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostAC>
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof setStatusAC>
 
@@ -61,20 +58,12 @@ export const profileReducer = (state = initialState, action: ProfileReducersType
         case 'ADD-POST':
             const newPost: PostsType = {
                 id: 5,
-                message: state.newPostText,
+                message: action.payload.post,
                 likesCount: 0
             }
             return {
                 ...state,
                 posts: [...state.posts, newPost],
-                newPostText: ''
-            }
-
-        case 'UPDATE-NEW-POST':
-            state.newPostText = action.payload.newPost
-            return {
-                ...state,
-                newPostText: action.payload.newPost
             }
 
         case 'SET-USER-PROFILE':
@@ -94,17 +83,11 @@ export const profileReducer = (state = initialState, action: ProfileReducersType
     }
 }
 
-export const addPostAC = () => {
+export const addPostAC = (post: string) => {
     return {
-        type: 'ADD-POST'
-    } as const
-}
-
-export const updateNewPostAC = (newPost: string) => {
-    return {
-        type: 'UPDATE-NEW-POST',
+        type: 'ADD-POST',
         payload: {
-            newPost
+            post
         }
     } as const
 }

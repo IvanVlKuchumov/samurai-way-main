@@ -1,5 +1,5 @@
-import {addPostAC, updateNewPostAC} from "./profile-reducer";
-import {sendMessageAC, updateNewMessageBodyAC} from "./dialogs-reducer";
+import {addPostAC} from "./profile-reducer";
+import {sendMessageAC} from "./dialogs-reducer";
 
 
 type MessagesType = {
@@ -43,8 +43,6 @@ type StorePropsType = {
 }
 type DispatchType =
     ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostAC>
-    | ReturnType<typeof updateNewMessageBodyAC>
     | ReturnType<typeof sendMessageAC>
 
 // const store: StorePropsType = {
