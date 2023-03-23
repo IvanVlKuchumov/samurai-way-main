@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {Action, applyMiddleware, combineReducers, createStore} from "redux";
 import {profileReducer, ProfileReducersType} from "./profile-reducer";
 import {dialogsReducer, DialogsReducersType} from "./dialogs-reducer";
 import {usersReducer, UsersReducersType} from "./users-reducer";
@@ -24,6 +24,7 @@ export type AppReducersType =
 export type AppStateType = ReturnType<typeof rootReducer>
 export type AppDispatch = ThunkDispatch<AppStateType, unknown, AppReducersType>
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, AppReducersType>
+export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))
 

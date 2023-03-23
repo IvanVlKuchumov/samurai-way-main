@@ -33,9 +33,21 @@ export const usersAPI = {
 
 }
 
-export const headersAPI = {
+export const authAPI = {
     checkAuth() {
         return instance.get('auth/me')
+            .then(response => {
+                return response.data
+            })
+    },
+    login(email: string, password: string, rememberMe: boolean = false) {
+        return instance.post('auth/login', {email, password, rememberMe})
+            .then(response => {
+                return response.data
+            })
+    },
+    logout () {
+        return instance.delete('auth/login')
             .then(response => {
                 return response.data
             })

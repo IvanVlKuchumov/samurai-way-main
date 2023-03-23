@@ -5,17 +5,17 @@ import icon from '../../assets/images/icon.svg'
 
 type HeaderPropsType = {
     isAuth: boolean
-    login: string
-
+    login: string | null,
+    logout: () => void
 }
 
-export const Header: FC<HeaderPropsType> = ({isAuth, login}) => {
+export const Header: FC<HeaderPropsType> = ({isAuth, login, logout}) => {
     return (
         <header className={s.header}>
             <img src={icon} alt={'label'}/>
             <div className={s.loginBlock}>
                 { isAuth
-                    ? login
+                    ? <div>{login}  -  <button onClick={logout}>Log out</button></div>
                     : <NavLink to={'/login'}>
                         Login
                     </NavLink>}

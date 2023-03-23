@@ -25,7 +25,6 @@ export class ProfileStatus extends React.Component<MapStateToPropsType> {
     }
 
     onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-        debugger
         this.setState(
             {
                 status: e.currentTarget.value
